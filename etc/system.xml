@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * MDN Solutions
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://magento.mdnsolutions.com/license
+ *
+ * @category   MDN Solutions
+ * @package    MDN_SMS
+ * @author     Renato Medina <medina@mdnsolutions.com>
+ * @copyright  Copyright (c) 2003 - 2015 MDN Solutions (http://magento.mdnsolutions.com)
+ * @license    http://magento.mdnsolutions.com/license
+ */
+ -->
+<config>
+    <tabs>
+        <mdn translate="label" module="mdn_sms">
+            <label>MDN Solutions</label>
+            <sort_order>2</sort_order>
+        </mdn>
+    </tabs>
+    <sections>
+        <mdn_sms module="mdn_sms">
+            <label>MDN SMS</label>
+            <tab>mdn</tab>
+            <sort_order>100</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <telstra translate="label" module="mdn_sms">
+                    <label>Telstra SMS</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <comment></comment>
+                    <fields>
+                        <enable>
+                            <label>Enable</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enable>
+                        <app_url_sms>
+                            <label>APP SMS URL</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Standard Telstra API SMS URL</comment>
+                        </app_url_sms>
+                        <app_url_oauth>
+                            <label>APP Authentication URL</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Standard Telstra Authentication URL</comment>
+                        </app_url_oauth>
+                        <app_key>
+                            <label>APP/Consumer Key</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Obtain the APP Key from the Telstra Developer Portal</comment>
+                        </app_key>
+                        <app_secret>
+                            <label>APP/Consumer Secret</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Obtain the APP Secret from the Telstra Developer Portal</comment>
+                        </app_secret>
+                    </fields>
+                </telstra>
+            </groups>
+        </mdn_sms>
+    </sections>
+</config>

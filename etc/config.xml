@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * MDN Solutions
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://magento.mdnsolutions.com/license
+ *
+ * @category   MDN Solutions
+ * @package    MDN_SMS
+ * @author     Renato Medina <medina@mdnsolutions.com>
+ * @copyright  Copyright (c) 2003 - 2015 MDN Solutions (http://magento.mdnsolutions.com)
+ * @license    http://magento.mdnsolutions.com/license
+ */
+-->
+<config>
+    <modules>
+        <MDN_SMS>
+            <version>1.0.0</version>
+        </MDN_SMS>
+    </modules>
+    <global>
+        <models>
+            <mdn_sms>
+                <class>MDN_SMS_Model</class>
+            </mdn_sms>
+        </models>
+        <blocks>
+            <mdn_sms>
+                <class>MDN_SMS_Block</class>
+            </mdn_sms>
+        </blocks>
+        <helpers>
+            <mdn_sms>
+                <class>MDN_SMS_Helper</class>
+            </mdn_sms>
+        </helpers>
+        <events>
+            <sales_order_save_after>
+                <observers>
+                    <mdnsms_order_observer>
+                        <type>singleton</type>
+                        <class>mdn_sms/order_observer</class>
+                        <method>send</method>
+                    </mdnsms_order_observer>
+                </observers>
+            </sales_order_save_after>
+        </events>
+    </global>
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <mdn_sms>
+                                            <title>MDN SMS Config Section</title>
+                                        </mdn_sms>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+    <default>
+        <mdn_sms>
+            <telstra>
+                <enable>0</enable>
+                <app_url_sms>https://api.telstra.com/v1/sms/messages</app_url_sms>
+                <app_url_oauth>https://api.telstra.com/v1/oauth/token</app_url_oauth>
+                <app_key></app_key>
+                <app_secret></app_secret>
+            </telstra>
+        </mdn_sms>
+    </default>
+</config>
+
