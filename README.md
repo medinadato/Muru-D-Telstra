@@ -23,3 +23,6 @@ To set up the extension:
 4. On the top left you should be able to see "MDN SMS". Click on it;
 5. Now you can see/add your own Telstra API Credentials.
 
+## Author
+
+Renato Medina <medina@mdnsolutions.com>
