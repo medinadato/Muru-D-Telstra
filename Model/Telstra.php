@@ -30,6 +30,7 @@ class MDN_SMS_Model_Telstra extends Mage_Core_Model_Abstract
     {
         $this->appKey = trim(Mage::getStoreConfig('mdn_sms/telstra/app_key'));
         $this->appSecret = trim(Mage::getStoreConfig('mdn_sms/telstra/app_secret'));
+        $this->accessToken = $this->getAuthenticate();
     }
 
     /**
@@ -42,20 +43,9 @@ class MDN_SMS_Model_Telstra extends Mage_Core_Model_Abstract
         $url_oauth .= "?grant_type=client_credentials&scope=SMS";
         $url_oauth .= "&client_id=" . $this->appKey . "&client_secret=" . $this->appSecret;
         
-
-//var_dump($url_oauth);
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $url_oauth);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl, CURLOPT_USERAGENT, "Telstra SMS");
-        //curl_setopt($curl, CONNECTTIMEOUT, 1);
-        $content = curl_exec($curl);
-//var_dump(curl_error ( $curl ));   
-//var_dump($content);
-        curl_close($curl);
+        $response = $this->executeCurl($url_oauth);
        
-        return json_decode($content, true)["access_token"];
+        return json_decode($response, true)["access_token"];
     }
 
     /**
@@ -67,46 +57,59 @@ class MDN_SMS_Model_Telstra extends Mage_Core_Model_Abstract
     public function sendMessage($recipient, $message)
     {
         $url_sms = Mage::getStoreConfig('mdn_sms/telstra/app_url_sms');
-//var_dump($url_sms);        
-        $this->accessToken = $this->getAuthenticate();
-//var_dump($this->accessToken);        
+       
         $post_fields = array(
             "to" => $recipient,
             "body" => $message
         );
         
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $url_sms);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl, CURLOPT_USERAGENT, "Telstra SMS");
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array(("Authorization: Bearer " . $this->accessToken)));
-        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($post_fields));
-        //curl_setopt($curl, CONNECTTIMEOUT, 1);
-        $content = curl_exec($curl);
-        curl_close($curl);
-//var_dump(json_decode($content, true)["messageId"]);exit;        
-        return json_decode($content, true)["messageId"];
+        $response = $this->executeCurl($url_sms, $this->accessToken, $post_fields);
+             
+        return json_decode($response, true)["messageId"];
     }
 
     /**
      * 
+     * @param string $message_id
      * @return string
      */
     public function getStatus($message_id)
     {
         $url_sms = Mage::getStoreConfig('mdn_sms/telstra/app_url_sms') . "/" . $message_id;
-//var_dump($url_sms);
+        
+        $response = $this->executeCurl($url_sms, $this->accessToken);
+        
+        return json_decode($response, true);
+    }
+    
+    /**
+     * 
+     * @param string $url
+     * @param string $token
+     * @param array $post_fields
+     * @return mixed
+     */
+    private function executeCurl($url, $token = '', array $post_fields = array())
+    {   
         $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $url_sms);
+        curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($curl, CURLOPT_USERAGENT, "Telstra SMS");
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array(("Authorization: Bearer " . $this->accessToken)));
         //curl_setopt($curl, CONNECTTIMEOUT, 1);
-        $content = curl_exec($curl);
+        
+        if(!empty($token)) {
+            curl_setopt($curl, CURLOPT_HTTPHEADER, array(("Authorization: Bearer " . $token)));
+        }
+        
+        if(count($post_fields) > 0) {
+            curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($post_fields));
+        }
+        
+        $response = curl_exec($curl);
+        
         curl_close($curl);
         
-        return json_decode($content, true);
+        return $response;
     }
 }
