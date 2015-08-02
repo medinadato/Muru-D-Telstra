@@ -1,6 +1,10 @@
-# This extension allows customers to receive text messages from an e-commerce retailer. 
-# Those text messages can provide the order's real time progressing, by informing
-# when the products have been purchased, picked up and shipped.  
+# MDN SMS Telstra
+
+This extension allows customers to receive text messages from an e-commerce retailer. 
+Those text messages can provide the order's real time progressing, by informing
+when the products have been purchased, picked up and shipped.  
+
+## Testing
 
 Follow the steps below to test the extension:
  
@@ -18,3 +22,4 @@ To set up the extension:
 3) On the menu go to System > Configuration;
 4) On the top left you should be able to see "MDN SMS". Click on it;
 5) Now you can see/add your own Telstra API Credentials.
+
